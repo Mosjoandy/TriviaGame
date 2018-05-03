@@ -1,39 +1,47 @@
 $(document).ready(function() {
 
 // Making the timer
-var timeLimit = 11;
-var intervalId;
+    var timeLimit = 11;
+    var intervalId;
 
-// creating functions for timer
-// Start the timer
-function runTimer() {
-    timeLimit = 11;
-    intervalId = setInterval(decrement, 1000);
-}
-
-// Stop the timer
-function stop() {
-    clearInterval(intervalId);
-}
-
-// function that reduces by "seconds"
-function decrement() {
-    timeLimit--;
-    $(".timer").html("Time Left: " + timeLimit);
-
-    //Time limit stops the countdown
-    if (timeLimit === 0) {
-        console.log("you picked omitted")
-        stop();
-        omitted++;
+    
+    //////////////////////////////////////////////////
+    // THIS FUNCTION ALSO RUNS THE OMITTED SCREEN!! //
+    //////////////////////////////////////////////////
+    // fucntion that runs timer
+    function runTimer() {
         timeLimit = 11;
-        runTimer();
-        questionCounter++;
-        destroy();
-        nextQuestion(questionCounter);       
-   
-    } 
-}
+        intervalId = setInterval(decrement, 1000);
+    }
+
+    // Stop the timer
+    function stop() {
+        clearInterval(intervalId);
+    }
+
+    // function that reduces by "seconds"
+    function decrement() {
+        timeLimit--;
+        $(".timer").html("Time Left: " + timeLimit);
+
+        //Time limit stops the countdown
+        if (timeLimit === 0) {
+            console.log("you omitted")
+                stop();
+                omitted++;
+                $(".timer").empty();
+                destroy();
+                omittedScreen();
+                setTimeout(function() {
+                    timeLimit = 11;
+                    destroy();
+                    runTimer();
+                    questionCounter++;
+                    nextQuestion(questionCounter);
+                }, 5000);     
+    
+        } 
+    }
 
 // data vars
 var correct = 0;
@@ -103,6 +111,13 @@ var gameData = [
 function destroy() {
     $(".choiceArea").empty();
     $(".questionArea").empty();
+    $(".startScreen").empty();
+}
+
+function deploy() {
+    $(".startScreen").append("<h1>Correct: " + correct + "</h1>");
+    $(".startScreen").append("<h1>Incorrect: " + incorrect + "</h1>");
+    $(".startScreen").append("<h1>Omitted: " + omitted  + "</h1>");
 }
 
 // var that keeps track of object++
@@ -136,6 +151,12 @@ function nextQuestion(questionCounter) {
     };
 };
 
+
+//////////////////////////////////////////////////
+// On click function that ALSO has if/else to   //
+// move onto the next question                  //
+//////////////////////////////////////////////////
+
 // When user clicks on one of the choices
 $(document).on("click", ".choices", function() {
     //assign a value to data-value
@@ -146,23 +167,33 @@ $(document).on("click", ".choices", function() {
         //if the answer chosen is the same as the answer integer, show next question,
         //increase correct or incorrect accordingly
         if (answerChoice === gameData[questionCounter].answer) {
-            console.log("you picked right")
+            console.log("you picked right");
             stop();
             correct++;
-            timeLimit = 11;
-            runTimer();
-            questionCounter++;
+            $(".timer").empty();
             destroy();
-            nextQuestion(questionCounter);                           
+            correctScreen();
+            setTimeout(function() {
+                destroy();
+                timeLimit = 11;
+                runTimer();
+                questionCounter++;
+                nextQuestion(questionCounter);
+            }, 5000);
         } else {
             console.log("you picked wrong")
             stop();
-            incorrect++;   
-            timeLimit = 11;
-            runTimer(); 
-            questionCounter++;
+            incorrect++;
+            $(".timer").empty();
             destroy();
-            nextQuestion(questionCounter);
+            incorrectScreen();
+            setTimeout(function() {
+                destroy();  
+                timeLimit = 11;
+                runTimer();
+                questionCounter++;
+                nextQuestion(questionCounter);
+            }, 5000);
         }
 })
 
@@ -185,17 +216,34 @@ function endScreen() {
     destroy();
     $(".timer").empty();
         //display scores with append
-    $(".startScreen").html("<h1>Correct: " + correct + "</h1>")
-    $(".startScreen").append("<h1>Incorrect: " + incorrect + "</h1>")
-    $(".startScreen").append("<h1>Omitted: " + omitted  + "</h1>")
+    deploy();
     $(".startScreen").append("<div class='restart'><h1>Click Anywhere to try again!</h1></div");
     
+}
+
+// Correct answer screen
+function correctScreen() {
+    $(".startScreen").html("<h1>You chose correctly!</h1>")
+    $(".startScreen").append("<img src='assets/images/rightimage.gif' width='500px' />");
+    deploy();
+}
+
+// incorrect answer screen
+function incorrectScreen() {
+    $(".startScreen").html("<h1>You chose incorrectly!</h1>")
+    $(".startScreen").append("<img src='assets/images/incorrectimage.gif' width='500px' />");
+    deploy();
+}
+
+// omitted answer screen
+function omittedScreen() {
+    $(".startScreen").html("<h1>You were AFK!</h1>")
+    $(".startScreen").append("<img src='assets/images/wakeup.gif' width='500px' />");
+    deploy();
 }
 
 // BEGIN THE GAME!
 startScreen();
 
-// Show scores and end the game
-// if (correct + incorrect + omitted === 3) {
     
 })
