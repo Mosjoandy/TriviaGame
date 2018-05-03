@@ -1,3 +1,5 @@
+$(document).ready(function() {
+
 // Making the timer
 var timeLimit = 11;
 var intervalId;
@@ -21,12 +23,14 @@ function decrement() {
 
     //Time limit stops the countdown
     if (timeLimit === 0) {
-        
+        console.log("you picked omitted")
         stop();
-        destroy();
+        omitted++;
+        timeLimit = 11;
+        runTimer();
         questionCounter++;
-        nextQuestion(questionCounter);
-        omitted++;        
+        destroy();
+        nextQuestion(questionCounter);       
    
     } 
 }
@@ -39,18 +43,58 @@ var omitted = 0;
 // question bank with answers
 var gameData = [
     {
-        question: "question 1",
-        choices: ["Lose", "Lose", "Lose", "Win"],
+        question: "What was the first Marvel Cinematic Universe movie?",
+        choices: ["The Incredible Hulk", "Iron Man", "Captain America", "Spiderman"],
+        answer: 1
+    },
+    {
+        question: "Which MCU movie has the highest worldwide box office gross?",
+        choices: ["Black Panther", "Avenger: Age of Ultron", "Marvel's The Avengers", "Captain America: Civil War"],
+        answer: 2
+    },
+    {
+        question: "Which MCU movie had the lowest production budget?",
+        choices: ["Spiderman: Homecoming", "Thor", "Doctor Strange", "Captain America: The First Avenger"],
         answer: 3
     },
     {
-        question: "question 2",
-        choices: ["Win", "Lose", "Lose", "Lose"],
+        question: "Which of these MCU heroes can wield Mjolnir?",
+        choices: ["The Hulk", "Heimdall", "Spiderman", "Vision"],
+        answer: 3
+    },
+    {
+        question: "In Black Panther, Shuri wields what weapon?",
+        choices: ["Vibranium Gauntlets", "Vibranium Claws", "Vibranium Arms", "Vibranium Battle Stave"],
         answer: 0
     },
     {
-        question: "question 3",
-        choices: ["Lose", "Win", "Lose", "Lose"],
+        question: "In Guardians of the Galaxy, what did Star-Lord call Rocket?",
+        choices: ["Rabbit", "Panda", "Teddy Bear", "Rat"],
+        answer: 1
+    },
+    {
+        question: "In Doctor Strange, what car was Stephen Strange driving before he crashed?",
+        choices: ["Ferarri 488 Spider", "Agera RS", "Lamborghini Huracan", "McLaren 720S"],
+        answer: 2
+    },
+    {
+        question: "In Thor: Ragnarok, what name was given to the last Valkyrie by the Grandmaster?",
+        choices: ["My Favorite", "Angry Girl", "Scrapper 142", "Brunhilde"],
+        answer: 2
+    },
+    {
+        question: "In Spiderman: Homecoming, how long was Spiderman trapped in the Damage Control Vault?",
+        choices: ["37 minutes", "19 minutes", "12 minutes", "43 minutes"],
+        answer: 0
+    },
+    {
+        question: "In Ant-Man, who did Ant-Man face off with at the New Avenger's Facility?",
+        choices: ["Black Widow", "Hawkeye", "War Machine", "Falcon"],
+        answer: 3
+    },
+    {
+        question: "In the MCU, what does S.H.I.E.L.D. stand for?",
+        choices: ["Supreme Headquarters International Espionage Law-Enforcement Division", "Strategic Homeland Intervention Enforcement Logistics Division", "Strategic Hazard Intervention Espionage Logistics Directorate", "Strategic Homeland International Espionage Logitics Division"],
         answer: 1
     }
 ]
@@ -144,7 +188,7 @@ function endScreen() {
     $(".startScreen").html("<h1>Correct: " + correct + "</h1>")
     $(".startScreen").append("<h1>Incorrect: " + incorrect + "</h1>")
     $(".startScreen").append("<h1>Omitted: " + omitted  + "</h1>")
-    $(".startScreen").append("<div class='restart'><h1>Try Again</h1></div");
+    $(".startScreen").append("<div class='restart'><h1>Click Anywhere to try again!</h1></div");
     
 }
 
@@ -154,4 +198,4 @@ startScreen();
 // Show scores and end the game
 // if (correct + incorrect + omitted === 3) {
     
-// }
+})
