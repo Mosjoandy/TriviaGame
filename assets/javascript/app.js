@@ -1,11 +1,11 @@
 // Making the timer
-var timeLimit = 10;
+var timeLimit = 11;
 var intervalId;
 
 // creating functions for timer
 // Start the timer
 function runTimer() {
-    timeLimit = 10;
+    timeLimit = 11;
     intervalId = setInterval(decrement, 1000);
 }
 
@@ -64,26 +64,33 @@ function destroy() {
 // var that keeps track of object++
 var questionCounter = 0;
 
+//function for next screen with logic
 function nextQuestion(questionCounter) {
-    // Display next question in questionArea
-    $(".questionArea").append(gameData[questionCounter].question);
-
-    // forloop for questionCounter increments
-    for (var i=0; i < gameData[questionCounter].choices.length; i++) {
-        
-        //Make a new container
-        var container = $("<div>");
-        //give that container a class="choices"
-        container.attr("class", "choices");
-        // give that container a data value of i
-        container.attr("data-value", i);
-        // display the choices for the user
-        container.text(gameData[questionCounter].choices[i]);
-        // hook for choiceArea and append the container just made
-        $(".choiceArea").append(container);
-      
+    // condition for end the game
+    if (questionCounter === gameData.length) {
+        endScreen();
+        stop();
     }
-}
+    else {
+        // Display next question in questionArea
+        $(".questionArea").append(gameData[questionCounter].question);
+
+        // forloop for questionCounter increments
+        for (var i=0; i < gameData[questionCounter].choices.length; i++) {
+            
+            //Make a new container
+            var container = $("<div>");
+            //give that container a class="choices"
+            container.attr("class", "choices");
+            // give that container a data value of i
+            container.attr("data-value", i);
+            // display the choices for the user
+            container.text(gameData[questionCounter].choices[i]);
+            // hook for choiceArea and append the container just made
+            $(".choiceArea").append(container);
+        };
+    };
+};
 
 // When user clicks on one of the choices
 $(document).on("click", ".choices", function() {
@@ -96,23 +103,32 @@ $(document).on("click", ".choices", function() {
         //increase correct or incorrect accordingly
         if (answerChoice === gameData[questionCounter].answer) {
             console.log("you picked right")
-            destroy();
-            nextQuestion(questionCounter);    
             stop();
             correct++;
-                        
+            timeLimit = 11;
+            runTimer();
+            questionCounter++;
+            destroy();
+            nextQuestion(questionCounter);                           
         } else {
             console.log("you picked wrong")
+            stop();
+            incorrect++;   
+            timeLimit = 11;
+            runTimer(); 
+            questionCounter++;
             destroy();
             nextQuestion(questionCounter);
-            stop();
-            incorrect++;    
         }
 })
 
 // function for starting the game
 function startScreen() {
     $(".startScreen").html("<h1>Click to Start</h1>").on("click", function() {
+        correct = 0;
+        incorrect = 0;
+        omitted = 0;
+        questionCounter = 0;
         runTimer();
         nextQuestion(questionCounter);
         $(".startScreen").empty();
@@ -128,6 +144,7 @@ function endScreen() {
     $(".startScreen").html("<h1>Correct: " + correct + "</h1>")
     $(".startScreen").append("<h1>Incorrect: " + incorrect + "</h1>")
     $(".startScreen").append("<h1>Omitted: " + omitted  + "</h1>")
+    $(".startScreen").append("<div class='restart'><h1>Try Again</h1></div");
     
 }
 
@@ -135,6 +152,6 @@ function endScreen() {
 startScreen();
 
 // Show scores and end the game
-if (questionCounter === 1) {
-    endScreen();
-}
+// if (correct + incorrect + omitted === 3) {
+    
+// }
