@@ -91,7 +91,7 @@ var gameData = [
     },
     {
         question: "In Age of Ultron, which MCU hero was hypnotized first by Wanda?",
-        choices: ["Black Widow", "Hawkeye", "Captain America", "Thor"],
+        choices: ["Black Widow", "Thor", "Captain America", "Iron Man"],
         answer: 3
     },
     {
