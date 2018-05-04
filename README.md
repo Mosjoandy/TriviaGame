@@ -117,3 +117,7 @@ function decrement() {
 - Bootstrap v4.1.0 - [getbootstrap](https://getbootstrap.com/)
 - jQuery v3.3.1 (uncompressed) - [jQuery core](https://code.jquery.com/)
 - Reset CSS by meyerweb - [meyerweb CSS reset](https://meyerweb.com/eric/tools/css/reset/)
+
+### Misc
+
+High score: 9/10 Mel
