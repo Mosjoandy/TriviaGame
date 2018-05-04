@@ -65,7 +65,7 @@ var gameData = [
         answer: 3
     },
     {
-        question: "In Black Panther, which tribe in Wakanda raise RHinos and use them in combat?",
+        question: "In Black Panther, which tribe in Wakanda raise Rhinos and use them in combat?",
         choices: ["The Border Tribe", "The River Tribe", "The Jabari Tribe", "The Yoruba Tribe"],
         answer: 0
     },
