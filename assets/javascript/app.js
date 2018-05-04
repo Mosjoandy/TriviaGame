@@ -65,8 +65,8 @@ var gameData = [
         answer: 3
     },
     {
-        question: "In Black Panther, Shuri utilizes what item to control vehicles remotely?",
-        choices: ["Kimoyo Beads", "Vibranium Control Discs", "Bantu Bracelet", "Panther Habit Necklace"],
+        question: "In Black Panther, which tribe in Wakanda raise RHinos and use them in combat?",
+        choices: ["The Border Tribe", "The River Tribe", "The Jabari Tribe", "The Yoruba Tribe"],
         answer: 0
     },
     {
