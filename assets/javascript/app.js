@@ -1,16 +1,15 @@
 $(document).ready(function() {
 
 // Making the timer
-    var timeLimit = 11;
+    var timeLimit = 16;
     var intervalId;
 
-    
     //////////////////////////////////////////////////
     // THIS FUNCTION ALSO RUNS THE OMITTED SCREEN!! //
     //////////////////////////////////////////////////
-    // fucntion that runs timer
+    // function that runs timer
     function runTimer() {
-        timeLimit = 11;
+        timeLimit = 16;
         intervalId = setInterval(decrement, 1000);
     }
 
@@ -33,12 +32,12 @@ $(document).ready(function() {
                 destroy();
                 omittedScreen();
                 setTimeout(function() {
-                    timeLimit = 11;
+                    timeLimit = 16;
                     destroy();
                     runTimer();
                     questionCounter++;
                     nextQuestion(questionCounter);
-                }, 5000);     
+                }, 4000);     
     
         } 
     }
@@ -51,28 +50,23 @@ var omitted = 0;
 // question bank with answers
 var gameData = [
     {
-        question: "What was the first Marvel Cinematic Universe movie?",
-        choices: ["The Incredible Hulk", "Iron Man", "Captain America", "Spiderman"],
+        question: "In Doctor Strange, what dimension did the Ancient One push Stephen's astral form into?",
+        choices: ["Mystic Dimension", "Astral Dimension", "Quantum Realm", "Dark Dimension"],
         answer: 1
     },
     {
-        question: "Which MCU movie has the highest worldwide box office gross?",
-        choices: ["Black Panther", "Avenger: Age of Ultron", "Marvel's The Avengers", "Captain America: Civil War"],
+        question: "In Guardians of the Galaxy Vol 2, who was the one led the mutiny against Yondu?",
+        choices: ["Kraglin Obfonteri", "Razerface", "Taserface", "Vorker"],
         answer: 2
     },
     {
-        question: "Which MCU movie had the lowest production budget?",
-        choices: ["Spiderman: Homecoming", "Thor", "Doctor Strange", "Captain America: The First Avenger"],
+        question: "In Iron Man 3, what was War Machine renamed to?",
+        choices: ["Patriot Protector", "Iron Protector", "Warmonger", "Iron Patriot"],
         answer: 3
     },
     {
-        question: "Which of these MCU heroes can wield Mjolnir?",
-        choices: ["The Hulk", "Heimdall", "Spiderman", "Vision"],
-        answer: 3
-    },
-    {
-        question: "In Black Panther, Shuri wields what weapon?",
-        choices: ["Vibranium Gauntlets", "Vibranium Claws", "Vibranium Arms", "Vibranium Battle Stave"],
+        question: "In Black Panther, Shuri utilizes what item to control vehicles remotely?",
+        choices: ["Kimoyo Beads", "Vibranium Control Discs", "Bantu Bracelet", "Panther Habit Necklace"],
         answer: 0
     },
     {
@@ -81,13 +75,13 @@ var gameData = [
         answer: 1
     },
     {
-        question: "In Doctor Strange, what car was Stephen Strange driving before he crashed?",
-        choices: ["Ferarri 488 Spider", "Agera RS", "Lamborghini Huracan", "McLaren 720S"],
+        question: "In Thor: The Dark World, what did Jane touch that caused her to require medical attention in Asgard?",
+        choices: ["Eye of Agamotto", "The Tesseract", "The Aether", "The Soul Stone"],
         answer: 2
     },
     {
-        question: "In Thor: Ragnarok, what name was given to the last Valkyrie by the Grandmaster?",
-        choices: ["My Favorite", "Angry Girl", "Scrapper 142", "Brunhilde"],
+        question: "In Thor: Ragnarok, what weapon did the Grandmaster use to end his cousin's life?",
+        choices: ["Disintegrator", "Topaz", "Melt Stick", "Evaporator"],
         answer: 2
     },
     {
@@ -96,8 +90,8 @@ var gameData = [
         answer: 0
     },
     {
-        question: "In Ant-Man, who did Ant-Man face off with at the New Avenger's Facility?",
-        choices: ["Black Widow", "Hawkeye", "War Machine", "Falcon"],
+        question: "In Age of Ultron, which MCU hero was hypnotized first by Wanda?",
+        choices: ["Black Widow", "Hawkeye", "Captain America", "Thor"],
         answer: 3
     },
     {
@@ -115,9 +109,9 @@ function destroy() {
 }
 
 function deploy() {
-    $(".startScreen").append("<h1>Correct: " + correct + "</h1>");
-    $(".startScreen").append("<h1>Incorrect: " + incorrect + "</h1>");
-    $(".startScreen").append("<h1>Omitted: " + omitted  + "</h1>");
+    $(".questionArea").append("<h3>Correct: " + correct + "</h3>");
+    $(".questionArea").append("<h3>Incorrect: " + incorrect + "</h3>");
+    $(".questionArea").append("<h3>Omitted: " + omitted  + "</h3>");
 }
 
 // var that keeps track of object++
@@ -133,21 +127,28 @@ function nextQuestion(questionCounter) {
     else {
         // Display next question in questionArea
         $(".questionArea").append(gameData[questionCounter].question);
+          //Make a new container
+          var container = $("<div>");
+          //give that container a class="choices"
+          container.attr("class", "choices");
+            // forloop for questionCounter increments
+            for (var i=0; i < gameData[questionCounter].choices.length; i++) {
+                // Make divs for each possible answer
+                    var answerAreas = $("<div>");
+                // give the divs a class
+                    answerAreas.attr("class", "clickableAnswer");
+                // give the divs a data value of i
+                    answerAreas.attr("data-value", i);
+                // print out text of the answers (all four of them)
+                    answerAreas.text(gameData[questionCounter].choices[i]);
+                // append the answer divs to the parent container
+                    container.append(answerAreas);
 
-        // forloop for questionCounter increments
-        for (var i=0; i < gameData[questionCounter].choices.length; i++) {
-            
-            //Make a new container
-            var container = $("<div>");
-            //give that container a class="choices"
-            container.attr("class", "choices");
-            // give that container a data value of i
-            container.attr("data-value", i);
-            // display the choices for the user
-            container.text(gameData[questionCounter].choices[i]);
-            // hook for choiceArea and append the container just made
-            $(".choiceArea").append(container);
-        };
+                
+            };
+
+        // hook for choiceArea and append the container just made
+        $(".choiceArea").html(container);
     };
 };
 
@@ -158,7 +159,7 @@ function nextQuestion(questionCounter) {
 //////////////////////////////////////////////////
 
 // When user clicks on one of the choices
-$(document).on("click", ".choices", function() {
+$(document).on("click", ".clickableAnswer", function() {
     //assign a value to data-value
     var answerChoice = $(this).attr("data-value");
     //convert the value into an integer
@@ -175,11 +176,11 @@ $(document).on("click", ".choices", function() {
             correctScreen();
             setTimeout(function() {
                 destroy();
-                timeLimit = 11;
+                timeLimit = 16;
                 runTimer();
                 questionCounter++;
                 nextQuestion(questionCounter);
-            }, 5000);
+            }, 4000);
         } else {
             console.log("you picked wrong")
             stop();
@@ -189,24 +190,28 @@ $(document).on("click", ".choices", function() {
             incorrectScreen();
             setTimeout(function() {
                 destroy();  
-                timeLimit = 11;
+                timeLimit = 16;
                 runTimer();
                 questionCounter++;
                 nextQuestion(questionCounter);
-            }, 5000);
+            }, 4000);
         }
 })
 
 // function for starting the game
 function startScreen() {
-    $(".startScreen").html("<h1>Click to Start</h1>").on("click", function() {
+    $(".startScreen").html("<h1 class='clickStartScreen'>Click here to Start</h1>").on("click", function() {
         correct = 0;
         incorrect = 0;
         omitted = 0;
         questionCounter = 0;
-        runTimer();
-        nextQuestion(questionCounter);
-        $(".startScreen").empty();
+        destroy();
+        $(".questionArea").append("<img src='assets/images/introimage.gif' width='630' />");
+        setTimeout(function() {
+            destroy();
+            nextQuestion(questionCounter);
+            runTimer();
+        }, 6000);
     })
 }
 
@@ -217,28 +222,30 @@ function endScreen() {
     $(".timer").empty();
         //display scores with append
     deploy();
-    $(".startScreen").append("<div class='restart'><h1>Click Anywhere to try again!</h1></div");
+    
+    $(".startScreen").append("<div class='restart clickStartScreen'><h1>Click here to try again!</h1></div");
+    $(".questionArea").append("<img src='assets/images/endimage.gif' />");
     
 }
 
 // Correct answer screen
 function correctScreen() {
-    $(".startScreen").html("<h1>You chose correctly!</h1>")
-    $(".startScreen").append("<img src='assets/images/rightimage.gif' width='500px' />");
+    $(".questionArea").html("<h1>Correct!</h1>")
+    $(".questionArea").append("<img src='assets/images/rightimage.gif' width='500px' />");
     deploy();
 }
 
 // incorrect answer screen
 function incorrectScreen() {
-    $(".startScreen").html("<h1>You chose incorrectly!</h1>")
-    $(".startScreen").append("<img src='assets/images/incorrectimage.gif' width='500px' />");
+    $(".questionArea").html("<h1>Incorrect!</h1>")
+    $(".questionArea").append("<img src='assets/images/incorrectimage.gif' height='283px' />");
     deploy();
 }
 
 // omitted answer screen
 function omittedScreen() {
-    $(".startScreen").html("<h1>You were AFK!</h1>")
-    $(".startScreen").append("<img src='assets/images/wakeup.gif' width='500px' />");
+    $(".questionArea").html("<h1>You were AFK!</h1>")
+    $(".questionArea").append("<img src='assets/images/wakeup.gif' width='500px' />");
     deploy();
 }
 

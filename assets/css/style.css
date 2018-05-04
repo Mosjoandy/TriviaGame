@@ -1,0 +1,44 @@
+.jumbotron {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    
+}
+.jumbo1 {
+    background: #ed1b2a;
+    color: white;
+    padding-bottom: 0px;
+}
+
+
+body {
+    font-family: 'Bangers', cursive;
+    background: #1F2D3D;
+}
+
+.mainParagraph {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+}
+
+.clickableAnswer {
+    border: 2px solid #273444;
+    background: #8492A6;
+    width: 80%;
+    margin: 0 auto;
+    
+}
+
+.clickableAnswer:hover {
+    background: #13CE66;
+    cursor: pointer;
+}
+
+img {
+    border: 2px solid #FFC82C;
+}
+
+.clickStartScreen:hover {
+    background: #13CE66;
+    cursor: pointer;
+}
